@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>967fe932-9c5d-47e4-830f-465347836285</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Protos\EmailService.proto" />
+  </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="Protos\EmailService.proto" GrpcServices="Server" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Blazorboilerplate.NetMail.MailKitEmailService\BlazorBoilerplate.NetMail.MailKitEmailService.csproj" />
+    <ProjectReference Include="..\BlazorBoilerplate.Shared\BlazorBoilerplate.Shared.csproj" />
+  </ItemGroup>
+</Project>

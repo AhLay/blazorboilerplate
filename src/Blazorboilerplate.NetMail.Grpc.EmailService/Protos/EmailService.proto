@@ -1,0 +1,22 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "BlazorBoilerplate.NetMail.Grpc.EmailService";
+import "google/protobuf/empty.proto";
+package emailServices;
+
+// The greeting service definition.
+service EmailSvc {
+  // Sends a greeting
+  rpc SendEmail (EmailMessageRequest) returns (google.protobuf.Empty);
+}
+
+// The request message containing the user's name.
+message EmailMessageRequest {
+  string subject = 1;
+  string body = 2;
+  bool isHtml = 3;
+  repeated string from = 4;
+  repeated string to = 5;
+  repeated string cc = 6;
+  repeated string bcc = 7;
+}

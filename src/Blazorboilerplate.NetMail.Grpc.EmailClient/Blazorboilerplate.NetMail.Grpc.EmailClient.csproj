@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Protos\EmailService.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\blazorboilerplate.Contracts\BlazorBoilerplate.Contracts.csproj" />
+    <ProjectReference Include="..\BlazorBoilerplate.Shared\BlazorBoilerplate.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\EmailService.proto">
+      <GrpcServices>Client</GrpcServices>
+    </Protobuf>
+  </ItemGroup>
+</Project>

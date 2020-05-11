@@ -1,5 +1,6 @@
 ﻿using BlazorBoilerplate.Server.Managers;
 using BlazorBoilerplate.Server.Middleware.Wrappers;
+using BlazorBoilerplate.Server.Modules.AccountManagement;
 using BlazorBoilerplate.Shared.AuthorizationDefinitions;
 using BlazorBoilerplate.Shared.Dto.Account;
 using Microsoft.AspNetCore.Authorization;

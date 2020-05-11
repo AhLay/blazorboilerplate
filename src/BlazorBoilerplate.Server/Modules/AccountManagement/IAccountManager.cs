@@ -1,14 +1,11 @@
 ﻿using BlazorBoilerplate.Server.Middleware.Wrappers;
-using BlazorBoilerplate.Shared.Dto;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BlazorBoilerplate.Shared.DataModels;
 using BlazorBoilerplate.Shared.Dto.Account;
 
-namespace BlazorBoilerplate.Server.Managers
+namespace BlazorBoilerplate.Server.Modules.AccountManagement
 {
     public interface IAccountManager
     {

@@ -1,7 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
@@ -43,7 +41,6 @@ using Microsoft.AspNetCore.Http;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.EntityFrameworkCore;
@@ -53,8 +50,12 @@ using Microsoft.Extensions.Hosting;
 
 using Serilog;
 using System.Reflection;
-using BlazorBoilerplate.Server.Data;
-
+using BlazorBoilerplate.Server.Modules.AccountManagement;
+using BlazorBoilerplate.Shared.Email;
+using BlazorBoilerplate.NetMail.Grpc.EmailClient.Clients;
+using BlazorBoilerplate.Contracts.NetMail;
+using BlazorBoilerplate.NetMail.EmailTemplateProvider;
+using BlazorBoilerplate.NetMail.Grpc.EmailClient;
 
 namespace BlazorBoilerplate.Server
 {
@@ -343,15 +344,33 @@ namespace BlazorBoilerplate.Server
             });
 
             services.AddScoped<IUserSession, UserSession>();
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
 
+            services.AddTransient<IEmailSender<EmailMessage, Result>, NetMailClient>(sp =>
+            {
+                var options = Configuration.GetSection("EmailClientOptions")
+                             .Get<EmailClientOptions>();
+
+                return new NetMailClient(options);
+
+            });
+
+            services.AddTransient<ITemplateProvider, TemplateJsonProvider>(sp =>
+            {
+                return CreateEmailTemplateProvider();
+            });
+
+            services.AddTransient<IEmailBuilder, EmailBuilder>(sp => 
+            {
+                var emailSender = sp.GetService<IEmailSender<EmailMessage, Result>>();
+                return new EmailBuilder(emailSender, () => new EmailTemplateBuilder());
+            });
+             
             services.AddTransient<IAccountManager, AccountManager>();
             services.AddTransient<IAdminManager, AdminManager>();
             services.AddTransient<IApiLogManager, ApiLogManager>();
             services.AddTransient<IDbLogManager, DbLogManager>();
-            services.AddTransient<IEmailManager, EmailManager>();
             services.AddTransient<IExternalAuthManager, ExternalAuthManager>(); // Currently not being used.
             services.AddTransient<IMessageManager, MessageManager>();
             services.AddTransient<ITodoManager, ToDoManager>();
@@ -411,13 +430,20 @@ namespace BlazorBoilerplate.Server
             }
         }
 
+        private TemplateJsonProvider CreateEmailTemplateProvider()
+        {
+            var options = Configuration
+                          .GetSection(nameof(TemplateFileProviderOptions))
+                          .Get<TemplateFileProviderOptions>();
+
+            return new TemplateJsonProvider(options);
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // cookie policy to deal with temporary browser incompatibilities
             app.UseCookiePolicy();
-
-            EmailTemplates.Initialize(env);
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {

@@ -16,15 +16,41 @@ using BlazorBoilerplate.Shared.Dto.Account;
 using BlazorBoilerplate.Shared.Dto.Email;
 using IdentityModel;
 using Microsoft.EntityFrameworkCore;
+using BlazorBoilerplate.NetMail.Grpc.EmailClient;
+using static BlazorBoilerplate.Server.Helpers.Constants;
+using BlazorBoilerplate.Contracts.NetMail;
 
-namespace BlazorBoilerplate.Server.Managers
+namespace BlazorBoilerplate.Server.Modules.AccountManagement
 {
+    public class ForgotPasswordUserDto
+    {
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Token { get; set; }
+        public string Url { get;  set; }
+    }
+
+    public static class AccountExtensions
+    {
+        public static ForgotPasswordUserDto ToForgotPassworUserDto(this ApplicationUser user, string token,string url)
+        {
+            return
+                new ForgotPasswordUserDto
+                {
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Token = token,
+                    Url = url
+                };
+        }
+    }
+
     public class AccountManager : IAccountManager
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<AccountManager> _logger;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
-        private readonly IEmailManager _emailManager;
+        private readonly IEmailBuilder _emailBuilder;
         private readonly IUserProfileStore _userProfileStore;
         private readonly IConfiguration _configuration;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -32,18 +58,18 @@ namespace BlazorBoilerplate.Server.Managers
         private static readonly UserInfoDto LoggedOutUser = new UserInfoDto { IsAuthenticated = false, Roles = new List<string>() };
 
         public AccountManager(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            ILogger<AccountManager> logger,
-            RoleManager<IdentityRole<Guid>> roleManager,
-            IEmailManager emailManager,
-            IUserProfileStore userProfileStore,
-            IConfiguration configuration)
+                                SignInManager<ApplicationUser> signInManager,
+                                ILogger<AccountManager> logger,
+                                RoleManager<IdentityRole<Guid>> roleManager,
+                                IEmailBuilder emailBuilder,
+                                IUserProfileStore userProfileStore,
+                                IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _roleManager = roleManager;
-            _emailManager = emailManager;
+            _emailBuilder = emailBuilder;
             _userProfileStore = userProfileStore;
             _configuration = configuration;
         }
@@ -94,12 +120,29 @@ namespace BlazorBoilerplate.Server.Managers
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 string callbackUrl = string.Format("{0}/Account/ResetPassword/{1}?token={2}", _configuration["BlazorBoilerplate:ApplicationUrl"], user.Id, token); //token must be a query string parameter as it is very long
 
-                var email = new EmailMessageDto();
-                email.ToAddresses.Add(new EmailAddressDto(user.Email, user.Email));
-                email.BuildForgotPasswordEmail(user.UserName, callbackUrl, token); //Replace First UserName with Name if you want to add name to Registration Form
+                //var email = new EmailMessageDto();
+                //email.ToAddresses.Add(new EmailAddressDto(user.Email, user.Email));
+                //email.BuildForgotPasswordEmail(user.UserName, callbackUrl, token); //Replace First UserName with Name if you want to add name to Registration Form
 
+                var template = _configuration.GetTemplate(ForgotPasswordTemplateName);
+                var userDto = user.ToForgotPassworUserDto(token,callbackUrl);
                 _logger.LogInformation("Forgot Password Email Sent: {0}", user.Email);
-                await _emailManager.SendEmailAsync(email);
+
+                //todo: providing Templates should be fixed 
+                var result = await _emailBuilder
+                                  .UseTemplate()
+                                  .WithSubject(userDto, template)
+                                  .WithBody(userDto, template)
+                                  .From("system@local.com")  //todo: is just a dummy                     
+                                  .To(userDto.Email)
+                                  .SendEmail();
+
+                if(result.Failed)
+                {
+                    _logger.LogInformation($"Forgot Password email failed: {result.Message}");
+                }
+
+                //await _emailManager.SendEmailAsync(email);
                 return new ApiResponse(Status200OK, "Forgot Password Email Sent");
             }
             catch (Exception ex)
@@ -204,13 +247,27 @@ namespace BlazorBoilerplate.Server.Managers
                 {
                     #region Email Successful Password change
 
-                    var email = new EmailMessageDto();
-                    email.ToAddresses.Add(new EmailAddressDto(user.Email, user.Email));
-                    email.BuildPasswordResetEmail(user.UserName); //Replace First UserName with Name if you want to add name to Registration Form
+                    //var email = new EmailMessageDto();
+                    //email.ToAddresses.Add(new EmailAddressDto(user.Email, user.Email));
+                    //email.BuildPasswordResetEmail(user.UserName); //Replace First UserName with Name if you want to add name to Registration Form
 
                     _logger.LogInformation($"Reset Password Successful Email Sent: {user.Email}");
-                    await _emailManager.SendEmailAsync(email);
+                    //await _emailManager.SendEmailAsync(email);
 
+                    var template = _configuration.GetTemplate(PasswordResetEmailTemplateName);
+                    var mailResult = await _emailBuilder
+                                        .UseTemplate()
+                                        .WithSubject(user, template)
+                                        .WithBody(user, template)
+                                        .From("system@local.com") //todo: is just a dummy
+                                        .To(user.Email)
+                                        .SendEmail();
+
+                    if (mailResult.Failed)
+                    {
+                        _logger.LogInformation($"Error while resetting the password!: {user.UserName}. Error: {mailResult.Message}");
+                        return new ApiResponse(Status400BadRequest, $"Error while resetting the password!: {user.UserName}");
+                    }
                     #endregion Email Successful Password change
 
                     return new ApiResponse(Status200OK, $"Reset Password Successful Email Sent: {user.Email}");
@@ -297,12 +354,25 @@ namespace BlazorBoilerplate.Server.Managers
                         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         string callbackUrl = string.Format("{0}/Account/ConfirmEmail/{1}?token={2}", _configuration["BlazorBoilerplate:ApplicationUrl"], user.Id, token);
 
-                        var email = new EmailMessageDto();
-                        email.ToAddresses.Add(new EmailAddressDto(user.Email, user.Email));
-                        email = EmailTemplates.BuildNewUserConfirmationEmail(email, user.UserName, user.Email, callbackUrl, user.Id.ToString(), token); //Replace First UserName with Name if you want to add name to Registration Form
+                        //var email = new EmailMessageDto();
+                        //email.ToAddresses.Add(new EmailAddressDto(user.Email, user.Email));
+                        //email = EmailTemplates.BuildNewUserConfirmationEmail(email, user.UserName, user.Email, callbackUrl, user.Id.ToString(), token); //Replace First UserName with Name if you want to add name to Registration Form
 
                         _logger.LogInformation("New user created: {0}", user);
-                        await _emailManager.SendEmailAsync(email);
+                        //await _emailManager.SendEmailAsync(email);
+                        var template = _configuration.GetTemplate(NewUserConfirmationEmailTemplateName);
+
+                        var mailResult = await _emailBuilder
+                                            .UseTemplate()
+                                            .WithSubject(user,template)
+                                            .WithBody(user, template)
+                                            .From("system@local.com") //todo: is just a dummy
+                                            .To(user.Email)
+                                            .SendEmail();//todo: error handling
+
+                        if(mailResult.Failed)
+                            _logger.LogInformation("New user email failed: {0}", mailResult.Message);
+
                     }
                     catch (Exception ex)
                     {
@@ -314,12 +384,25 @@ namespace BlazorBoilerplate.Server.Managers
 
                 try
                 {
-                    var email = new EmailMessageDto();
-                    email.ToAddresses.Add(new EmailAddressDto(user.Email, user.Email));
-                    email.BuildNewUserEmail(user.FullName, user.UserName, user.Email, parameters.Password);
+                    //var email = new EmailMessageDto();
+                    //email.ToAddresses.Add(new EmailAddressDto(user.Email, user.Email));
+                    //email.BuildNewUserEmail(user.FullName, user.UserName, user.Email, parameters.Password);
 
                     _logger.LogInformation("New user created: {0}", user);
-                    await _emailManager.SendEmailAsync(email);
+                    //await _emailManager.SendEmailAsync(email);
+                    var template = _configuration.GetTemplate(NewUserConfirmationEmailTemplateName);
+
+                    var mailResult = await _emailBuilder
+                                          .UseTemplate()
+                                          .WithSubject(user,template)
+                                          .WithBody(user, template)
+                                          .From("system@local.com") //todo: is just a dummy
+                                          .To(user.Email)
+                                          .SendEmail();
+
+                    if(mailResult.Failed)
+                        _logger.LogInformation("New user email failed: {0}", mailResult.Message);
+
                 }
                 catch (Exception ex)
                 {
@@ -516,24 +599,50 @@ namespace BlazorBoilerplate.Server.Managers
             _logger.LogInformation("New user registered: {0}", user);
 
             var emailMessage = new EmailMessageDto();
-
+            EmailTemplate template;
+            ISendEmail sender;
             if (requireConfirmEmail)
             {
+                
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callbackUrl = $"{_configuration["BlazorBoilerplate:ApplicationUrl"]}/Account/ConfirmEmail/{user.Id}?token={token}";
 
-                emailMessage.BuildNewUserConfirmationEmail(user.UserName, user.Email, callbackUrl, user.Id.ToString(), token); //Replace First UserName with Name if you want to add name to Registration Form
+                
+                template = _configuration.GetTemplate(NewUserConfirmationEmailTemplateName);
+                var dto = user.ToForgotPassworUserDto(token,callbackUrl);
+
+                sender = _emailBuilder
+                        .UseTemplate()
+                        .WithSubject(user, template)
+                        .WithBody(dto, template)
+                        .From("system@local.com") //todo: is just a dummy
+                        .To(user.Email);
+
+
+                //emailMessage.BuildNewUserConfirmationEmail(user.UserName, user.Email, callbackUrl, user.Id.ToString(), token); 
+                //Replace First UserName with Name if you want to add name to Registration Form
             }
             else
             {
-                emailMessage.BuildNewUserEmail(user.FullName, user.UserName, user.Email, password);
-            }
+                template = _configuration.GetTemplate(NewUserConfirmationEmailTemplateName);
+                sender = _emailBuilder
+                        .UseTemplate()
+                        .WithSubject(user, template)
+                        .WithBody(user, template)
+                        .From("system@local.com") //todo: is just a dummy
+                        .To(user.Email);
 
+            }
             emailMessage.ToAddresses.Add(new EmailAddressDto(user.Email, user.Email));
             try
-            {
-                await _emailManager.SendEmailAsync(emailMessage);
+            {                
+                var mailResult = await sender
+                                      .SendEmail();
+
+                if(mailResult.Failed)
+                    _logger.LogInformation($"New user email failed:, Error: {mailResult.Message}");
+
             }
             catch (Exception ex)
             {

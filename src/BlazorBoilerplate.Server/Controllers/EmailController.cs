@@ -1,12 +1,10 @@
-﻿using BlazorBoilerplate.Shared;
-using BlazorBoilerplate.Server.Middleware.Wrappers;
-using BlazorBoilerplate.Server.Managers;
-using BlazorBoilerplate.Shared.Dto.Email;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using static Microsoft.AspNetCore.Http.StatusCodes;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using BlazorBoilerplate.NetMail.Grpc.EmailClient;
+using BlazorBoilerplate.Shared.Dto.Email;
+using BlazorBoilerplate.Server.Middleware.Wrappers;
+using static Microsoft.AspNetCore.Http.StatusCodes;
+using System.Threading.Tasks;
 
 namespace BlazorBoilerplate.Server.Controllers
 {
@@ -15,24 +13,38 @@ namespace BlazorBoilerplate.Server.Controllers
     [ApiController]
     public class EmailController : ControllerBase
     {
-        private readonly IEmailManager _emailManager;
-
-        public EmailController(IEmailManager emailManager)
+        private readonly IEmailBuilder _emailBuilder;
+        public EmailController(IEmailBuilder emailBuilder)
         {
-            _emailManager = emailManager;
+            _emailBuilder = emailBuilder;
         }
 
         [HttpPost("Send")]
         [ProducesResponseType((int)Status200OK)]
         [ProducesResponseType((int)Status400BadRequest)]
         public async Task<ApiResponse> Send(EmailDto parameters)
-            => ModelState.IsValid ?
-                await _emailManager.Send(parameters) :
-                new ApiResponse(Status400BadRequest, "User Model is Invalid");
+        {
+            if (ModelState.IsValid)
+            {
+                var emailResult = await _emailBuilder
+                .UseTemplate()
+                .WithSubject(parameters.Subject)
+                .WithBody(parameters.Body)
+                .From(parameters.FromAddress)
+                .To(parameters.ToAddress)
+                .SendEmail();
 
-        [HttpGet("Receive")]
-        [Authorize]
-        public async Task<ApiResponse> Receive()
-            => await _emailManager.ReceiveMailImapAsync();
+                return emailResult.Failed
+                    ? new ApiResponse(Status500InternalServerError, emailResult.Message)
+                    : new ApiResponse(Status200OK, emailResult.Message);
+            }
+            
+            return
+            new ApiResponse(Status400BadRequest, "User Model is Invalid");
+        }
+        //[HttpGet("Receive")]
+        //[Authorize]
+        //public async Task<ApiResponse> Receive()
+        //    => await _emailManager.ReceiveMailImapAsync();
     }
 }

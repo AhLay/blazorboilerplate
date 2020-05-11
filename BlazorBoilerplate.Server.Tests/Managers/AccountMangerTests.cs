@@ -1,4 +1,6 @@
-﻿using BlazorBoilerplate.Server.Managers;
+﻿using BlazorBoilerplate.NetMail.Grpc.EmailClient;
+using BlazorBoilerplate.Server.Managers;
+using BlazorBoilerplate.Server.Modules.AccountManagement;
 using BlazorBoilerplate.Shared.DataModels;
 using BlazorBoilerplate.Shared.Dto.Account;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +24,7 @@ namespace BlazorBoilerplate.Server.Tests.Managers
         private Mock<SignInManager<ApplicationUser>> _signInManager;
         private Mock<ILogger<AccountManager>> _logger;
         private Mock<RoleManager<IdentityRole<Guid>>> _roleManager;
-        private Mock<IEmailManager> _emailManager;
+        private Mock<IEmailBuilder> _emailManager;
         private Mock<IUserProfileStore> _userProfileStore;
         private Mock<IConfiguration> _configuration;
 
@@ -44,7 +46,7 @@ namespace BlazorBoilerplate.Server.Tests.Managers
             _signInManager = new Mock<SignInManager<ApplicationUser>>(_userManager.Object, contextAccessor.Object, userPrincipalFactory.Object, null, null, null, null);
             _logger = new Mock<ILogger<AccountManager>>();
             _roleManager = new Mock<RoleManager<IdentityRole<Guid>>>(roleStore.Object, roles, new UpperInvariantLookupNormalizer(), new IdentityErrorDescriber(), null);
-            _emailManager = new Mock<IEmailManager>();
+            _emailManager = new Mock<IEmailBuilder>();
             _userProfileStore = new Mock<IUserProfileStore>();
             _configuration = new Mock<IConfiguration>();
 

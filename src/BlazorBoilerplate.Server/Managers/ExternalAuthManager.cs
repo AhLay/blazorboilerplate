@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Policy;
 using System.Threading.Tasks;
-using BlazorBoilerplate.Server.Controllers;
+using BlazorBoilerplate.Server.Modules.AccountManagement;
 using BlazorBoilerplate.Shared;
 using BlazorBoilerplate.Shared.DataModels;
 using BlazorBoilerplate.Shared.Dto.ExternalAuth;
@@ -12,7 +11,6 @@ using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

@@ -31,8 +31,8 @@ namespace BlazorBoilerplate.Shared.Dto.Email
 
         public string ReplyToAddress { get; set; }
 
-        public string Subject { get; set; }
-                
+        public string Subject { get; set; } 
+
         public string Body { get; set; }
 
         [Required]
