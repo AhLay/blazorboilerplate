@@ -14,7 +14,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace BlazorBoilerplate.Components.Mat.AdminViews
+namespace BlazorBoilerplate.Components.Mat.Admins.Views
 {
     [Authorize]
     public partial class UsersComponent : ComponentBase

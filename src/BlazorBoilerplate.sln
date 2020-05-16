@@ -41,13 +41,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBoilerplate.NetMail.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBoilerplate.Application", "..\BlazorBoilerplate.Application\BlazorBoilerplate.Application.csproj", "{9FD347F6-23E7-4025-B23E-07CD78A3BEB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBoilerplate.Components.Mat.AdminViews", "..\BlazorBoilerplate.Components.MatBlazor.AdminViews\BlazorBoilerplate.Components.Mat.AdminViews.csproj", "{4D591849-2696-4CBE-9C04-11206B44C22D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBoilerplate.Components.Mat.Admins", "..\BlazorBoilerplate.Components.MatBlazor.AdminViews\BlazorBoilerplate.Components.Mat.Admins.csproj", "{4D591849-2696-4CBE-9C04-11206B44C22D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBoilerplate.Components.Shared", "..\BlazorBoilerplate.Components.Shared\BlazorBoilerplate.Components.Shared.csproj", "{74DFA25D-1809-4785-B964-304F0A163171}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBoilerplate.Components.Mat.Shared", "..\BlazorBoilerplate.Components.Mat.Shared\BlazorBoilerplate.Components.Mat.Shared.csproj", "{6581DEF4-4FCB-4F49-81B8-EC1ADFA1226A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBoilerplate.Components.Mat.Dashboards", "..\BlazorBoilerplate.Components.Mat.Dashboards\BlazorBoilerplate.Components.Mat.Dashboards.csproj", "{AE365379-4CA6-4453-859A-6BDF6CB1BD89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBoilerplate.Components.Mat.Dashboards", "..\BlazorBoilerplate.Components.Mat.Dashboards\BlazorBoilerplate.Components.Mat.Dashboards.csproj", "{AE365379-4CA6-4453-859A-6BDF6CB1BD89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBoilerplate.Components.Mat.AccountManagement", "..\BlazorBoilerplate.Components.Mat.AccountViews\BlazorBoilerplate.Components.Mat.AccountManagement.csproj", "{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -717,6 +719,42 @@ Global
 		{AE365379-4CA6-4453-859A-6BDF6CB1BD89}.Release|x64.Build.0 = Release|Any CPU
 		{AE365379-4CA6-4453-859A-6BDF6CB1BD89}.Release|x86.ActiveCfg = Release|Any CPU
 		{AE365379-4CA6-4453-859A-6BDF6CB1BD89}.Release|x86.Build.0 = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_CSB|Any CPU.ActiveCfg = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_CSB|Any CPU.Build.0 = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_CSB|x64.ActiveCfg = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_CSB|x64.Build.0 = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_CSB|x86.ActiveCfg = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_CSB|x86.Build.0 = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_SSB|Any CPU.ActiveCfg = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_SSB|Any CPU.Build.0 = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_SSB|x64.ActiveCfg = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_SSB|x64.Build.0 = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_SSB|x86.ActiveCfg = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug_SSB|x86.Build.0 = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug|x64.Build.0 = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Debug|x86.Build.0 = Debug|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_CSB|Any CPU.ActiveCfg = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_CSB|Any CPU.Build.0 = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_CSB|x64.ActiveCfg = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_CSB|x64.Build.0 = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_CSB|x86.ActiveCfg = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_CSB|x86.Build.0 = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_SSB|Any CPU.ActiveCfg = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_SSB|Any CPU.Build.0 = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_SSB|x64.ActiveCfg = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_SSB|x64.Build.0 = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_SSB|x86.ActiveCfg = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release_SSB|x86.Build.0 = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release|x64.ActiveCfg = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release|x64.Build.0 = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release|x86.ActiveCfg = Release|Any CPU
+		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

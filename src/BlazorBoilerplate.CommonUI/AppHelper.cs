@@ -1,4 +1,5 @@
-﻿using BlazorBoilerplate.Components.Mat.AdminViews;
+﻿using BlazorBoilerplate.Components.Mat.AccountManagement.Views;
+using BlazorBoilerplate.Components.Mat.Admins.Views;
 using BlazorBoilerplate.Components.Mat.Dashboards;
 using System.Reflection;
 
@@ -12,7 +13,8 @@ namespace BlazorBoilerplate.CommonUI
                 new[]
                 {
                     typeof(UsersComponent).Assembly,
-                    typeof(Dashboard).Assembly
+                    typeof(Dashboard).Assembly,
+                    typeof(Register).Assembly
                 };
         }
     }

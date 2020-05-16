@@ -1,4 +1,4 @@
-﻿namespace BlazorBoilerplate.Components.Mat.AdminViews
+﻿namespace BlazorBoilerplate.Components.Mat.Admins.Views
 {
     public partial class UsersComponent
     {

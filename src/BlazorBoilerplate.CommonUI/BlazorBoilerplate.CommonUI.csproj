@@ -49,9 +49,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BlazorBoilerplate.Application\BlazorBoilerplate.Application.csproj" />
+    <ProjectReference Include="..\..\BlazorBoilerplate.Components.Mat.AccountViews\BlazorBoilerplate.Components.Mat.AccountManagement.csproj" />
     <ProjectReference Include="..\..\BlazorBoilerplate.Components.Mat.Dashboards\BlazorBoilerplate.Components.Mat.Dashboards.csproj" />
     <ProjectReference Include="..\..\BlazorBoilerplate.Components.Mat.Shared\BlazorBoilerplate.Components.Mat.Shared.csproj" />
-    <ProjectReference Include="..\..\BlazorBoilerplate.Components.MatBlazor.AdminViews\BlazorBoilerplate.Components.Mat.AdminViews.csproj" />
+    <ProjectReference Include="..\..\BlazorBoilerplate.Components.MatBlazor.AdminViews\BlazorBoilerplate.Components.Mat.Admins.csproj" />
     <ProjectReference Include="..\..\BlazorBoilerplate.Components.Shared\BlazorBoilerplate.Components.Shared.csproj" />
     <ProjectReference Include="..\BlazorBoilerplate.Shared\BlazorBoilerplate.Shared.csproj" />
   </ItemGroup>
