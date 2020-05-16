@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBoilerplate.Component
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBoilerplate.Components.Mat.AccountManagement", "..\BlazorBoilerplate.Components.Mat.AccountViews\BlazorBoilerplate.Components.Mat.AccountManagement.csproj", "{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBoilerplate.Components.Mat.ExternalAuth", "..\BlazorBoilerplate.Components.Mat.ExternalAuth\BlazorBoilerplate.Components.Mat.ExternalAuth.csproj", "{8BC91FB6-8581-4ACA-9E32-287C0444CA59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_CSB|Any CPU = Debug_CSB|Any CPU
@@ -755,6 +757,42 @@ Global
 		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release|x64.Build.0 = Release|Any CPU
 		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release|x86.ActiveCfg = Release|Any CPU
 		{C837BC61-7D2E-406D-AD7D-7FF6FCE22332}.Release|x86.Build.0 = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_CSB|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_CSB|Any CPU.Build.0 = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_CSB|x64.ActiveCfg = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_CSB|x64.Build.0 = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_CSB|x86.ActiveCfg = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_CSB|x86.Build.0 = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_SSB|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_SSB|Any CPU.Build.0 = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_SSB|x64.ActiveCfg = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_SSB|x64.Build.0 = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_SSB|x86.ActiveCfg = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug_SSB|x86.Build.0 = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug|x64.Build.0 = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Debug|x86.Build.0 = Debug|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_CSB|Any CPU.ActiveCfg = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_CSB|Any CPU.Build.0 = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_CSB|x64.ActiveCfg = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_CSB|x64.Build.0 = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_CSB|x86.ActiveCfg = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_CSB|x86.Build.0 = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_SSB|Any CPU.ActiveCfg = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_SSB|Any CPU.Build.0 = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_SSB|x64.ActiveCfg = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_SSB|x64.Build.0 = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_SSB|x86.ActiveCfg = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release_SSB|x86.Build.0 = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release|x64.ActiveCfg = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release|x64.Build.0 = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release|x86.ActiveCfg = Release|Any CPU
+		{8BC91FB6-8581-4ACA-9E32-287C0444CA59}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
