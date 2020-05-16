@@ -2,6 +2,7 @@
 
 namespace BlazorBoilerplate.Shared.Dto.Account
 {
+    //todo: rename to UserRegistrationDto
     public class RegisterDto
     {
         [Required]

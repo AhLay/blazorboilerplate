@@ -4,7 +4,7 @@
 @attribute [Authorize]
 
 @inject HttpClient Http
-@inject AuthenticationStateProvider authStateProvider
+@inject IIdentityAuthStateService authStateProvider
 @inject IMatToaster matToaster
 
 @using static Microsoft.AspNetCore.Http.StatusCodes
@@ -85,7 +85,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        userInfo = await ((IdentityAuthenticationStateProvider)authStateProvider).GetUserInfo();
+        userInfo = await authStateProvider.GetUserInfo();
     }
 
     public void OpenResetPasswordDialog()
@@ -124,7 +124,7 @@ else
     {
         try
         {
-            ApiResponseDto apiResponse = await ((IdentityAuthenticationStateProvider)authStateProvider).UpdateUser(userInfo);
+            ApiResponseDto apiResponse = await authStateProvider.UpdateUser(userInfo);
 
             if (apiResponse.StatusCode == Status200OK)
             {

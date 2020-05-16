@@ -1,7 +1,7 @@
-﻿using BlazorBoilerplate.CommonUI;
-using BlazorBoilerplate.CommonUI.Services.Contracts;
-using BlazorBoilerplate.CommonUI.Services.Implementations;
-using BlazorBoilerplate.CommonUI.States;
+﻿using BlazorBoilerplate.Application;
+using BlazorBoilerplate.Application.Contracts;
+using BlazorBoilerplate.Application.Implementations;
+using BlazorBoilerplate.CommonUI;
 using BlazorBoilerplate.Shared.AuthorizationDefinitions;
 using MatBlazor;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -14,6 +14,20 @@ using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace BlazorBoilerplate.Client
 {
+    public static class DependencyInjection
+    {
+        public static IServiceCollection AddAuthorizeApi(this IServiceCollection services)
+        {
+#if ServerSideBlazor
+             services.AddScoped<IAuthorizeApi, AuthorizeServerApi>();
+#endif
+
+#if ClientSideBlazor
+            services.AddScoped<IAuthorizeApi, AuthorizeClientApi>();
+#endif            
+            return services;
+        }
+    }
     public class Program
     {
         public static async Task Main(string[] args)
@@ -31,8 +45,12 @@ namespace BlazorBoilerplate.Client
                 // config.AddPolicy(Policies.IsMyDomain, Policies.IsMyDomainPolicy());  Only works on the server end
             });
 
-            builder.Services.AddScoped<AuthenticationStateProvider, IdentityAuthenticationStateProvider>();
-            builder.Services.AddScoped<IAuthorizeApi, AuthorizeApi>();
+            builder.Services.AddScoped<AuthenticationStateProvider, IdentityAuthStateService>();
+            builder.Services.AddScoped<IIdentityAuthStateService, IdentityAuthStateService>();
+
+            builder.Services.AddAuthorizeApi();
+
+
             builder.Services.Add(new ServiceDescriptor(typeof(IUserProfileApi), typeof(UserProfileApi), ServiceLifetime.Scoped));
             builder.Services.AddScoped<AppState>();
             builder.Services.AddLoadingBar();
@@ -48,7 +66,7 @@ namespace BlazorBoilerplate.Client
 
             await builder
             .Build()
-            .UseLoadingBar()
+            .UseLoadingBar()            
             .RunAsync();
         }
     }

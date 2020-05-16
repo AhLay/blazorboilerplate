@@ -7,21 +7,13 @@ using AutoMapper;
 #if ServerSideBlazor
 
 using BlazorBoilerplate.CommonUI;
-using BlazorBoilerplate.CommonUI.Services.Contracts;
-using BlazorBoilerplate.CommonUI.Services.Implementations;
-using BlazorBoilerplate.CommonUI.States;
-
 using MatBlazor;
-
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components;
-
 using System.Net.Http;
 
 #endif
 
 using BlazorBoilerplate.Server.Authorization;
-using BlazorBoilerplate.Server.Helpers;
 using BlazorBoilerplate.Server.Managers;
 using BlazorBoilerplate.Server.Middleware;
 using BlazorBoilerplate.Shared;
@@ -56,6 +48,10 @@ using BlazorBoilerplate.NetMail.Grpc.EmailClient.Clients;
 using BlazorBoilerplate.Contracts.NetMail;
 using BlazorBoilerplate.NetMail.EmailTemplateProvider;
 using BlazorBoilerplate.NetMail.Grpc.EmailClient;
+using BlazorBoilerplate.Application.Contracts;
+using BlazorBoilerplate.Application.Implementations;
+using System.Linq;
+using BlazorBoilerplate.Application;
 
 namespace BlazorBoilerplate.Server
 {
@@ -390,7 +386,7 @@ namespace BlazorBoilerplate.Server
 
 #if ServerSideBlazor
 
-            services.AddScoped<IAuthorizeApi, AuthorizeApi>();
+            services.AddScoped<IAuthorizeApi, AuthorizeServerApi>();
             services.AddScoped<IUserProfileApi, UserProfileApi>();
             services.AddScoped<AppState>();
             services.AddMatToaster(config =>
@@ -419,8 +415,8 @@ namespace BlazorBoilerplate.Server
             }
 
             Log.Logger.Debug("Adding AuthenticationStateProvider...");
-            services.AddScoped<AuthenticationStateProvider, IdentityAuthenticationStateProvider>();
-
+            services.AddScoped<AuthenticationStateProvider, IdentityAuthStateService>();
+            services.AddScoped<IIdentityAuthStateService, IdentityAuthStateService>();
 #endif
 
             Log.Logger.Debug($"Total Services Registered: {services.Count}");

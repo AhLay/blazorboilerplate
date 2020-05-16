@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components
 @inject NavigationManager navigationManager
-@inject AuthenticationStateProvider authStateProvider
-
+@inject IIdentityAuthStateService authStateProvider
+@inject AppState appState
 <AuthorizeView Context="AuthorizeContext">
     <Authorized>
         <MatTooltip Tooltip="Logout">
@@ -18,7 +18,8 @@
 @code {
     async Task LogoutClick()
     {
-        await ((IdentityAuthenticationStateProvider)authStateProvider).Logout();
+        await authStateProvider.Logout();
+        appState.UserProfile = null;
         navigationManager.NavigateTo("/account/login");
     }
 }

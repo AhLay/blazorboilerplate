@@ -5,7 +5,7 @@
 @layout LoginLayout
 @inject NavigationManager navigationManager
 @inject HttpClient Http
-@inject AuthenticationStateProvider authStateProvider
+@inject IIdentityAuthStateService authStateProvider
 @inject IMatToaster matToaster
 
 <MatCard>
@@ -60,7 +60,7 @@
     {
         try
         {
-            await ((IdentityAuthenticationStateProvider)authStateProvider).ConfirmEmail(confirmEmailParameters);
+            await authStateProvider.ConfirmEmail(confirmEmailParameters);
             matToaster.Add("Account has been Approved and Activated", MatToastType.Success);
             //Todo Take user to their profile page to edit their profile.
             navigationManager.NavigateTo("/");

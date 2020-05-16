@@ -43,8 +43,10 @@ namespace BlazorBoilerplate.Server
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseConfiguration(new ConfigurationBuilder()
+                    webBuilder
+                    .UseConfiguration(new ConfigurationBuilder()
                     .AddCommandLine(args).Build())
+                    .UseSetting(WebHostDefaults.DetailedErrorsKey, "true")
                     .UseStartup<Startup>()
                     .UseSerilog();
                 });

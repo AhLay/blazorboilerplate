@@ -1,6 +1,6 @@
 ﻿@using BlazorBoilerplate.Shared.Dto.Account
 @using Microsoft.AspNetCore.Components
-@inject AuthenticationStateProvider authStateProvider
+@inject IIdentityAuthStateService authStateProvider
 
 <AuthorizeView>
     <Authorized>
@@ -31,7 +31,7 @@
 
         if (user.Identity.IsAuthenticated)
         {
-            userInfo = await ((IdentityAuthenticationStateProvider)authStateProvider).GetUserInfo();
+            userInfo = await authStateProvider.GetUserInfo();
         }
     }
 }

@@ -4,7 +4,7 @@
 @using BlazorBoilerplate.Shared.Dto.Account
 @layout LoginLayout
 @inject NavigationManager navigationManager
-@inject AuthenticationStateProvider authStateProvider
+@inject IIdentityAuthStateService authStateProvider
 @inject IMatToaster matToaster
 
 @using static Microsoft.AspNetCore.Http.StatusCodes
@@ -50,7 +50,7 @@
     {
         try
         {
-            var response = await ((IdentityAuthenticationStateProvider)authStateProvider).Register(registerParameters);
+            var response = await authStateProvider.Register(registerParameters);
             if (response.StatusCode == Status200OK)
             {
                 matToaster.Add("New User Email Verification was sent to: " + registerParameters.Email, MatToastType.Success, "User Creation Sucessful");

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\Admin\BlazorMiddlewareAudit.razor" />
+    <None Remove="Pages\Admin\DbLogViewer.razor" />
+    <None Remove="Pages\Admin\Roles.razor" />
+    <None Remove="Pages\Admin\Users.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\Admin\BlazorMiddlewareAudit.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Include="Pages\Admin\DbLogViewer.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Include="Pages\Admin\Roles.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Include="Pages\Admin\Users.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <PackageReference Include="MatBlazor" Version="2.5.0-preview-005" />
+  </ItemGroup>
+
+</Project>

@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
-using BlazorBoilerplate.Shared.Dto;
 using BlazorBoilerplate.CommonUI.Hubs;
 using System.Collections.Generic;
 using System;
 using Microsoft.JSInterop;
-using BlazorBoilerplate.CommonUI.States;
 using BlazorBoilerplate.Shared.Dto.Account;
 using BlazorBoilerplate.Shared.Dto.Sample;
 using Microsoft.AspNetCore.Components.Authorization;
+using BlazorBoilerplate.Application.Implementations;
 
 namespace BlazorBoilerplate.CommonUI.Pages
 {
     public class ForumPageModel : ComponentBase
     {
         [Inject]
-        private AuthenticationStateProvider authStateProvider { get; set; }
+        private IIdentityAuthStateService authStateProvider { get; set; }
 
         [Inject]
         private IJSRuntime JsRuntime { get; set; }
@@ -36,7 +35,7 @@ namespace BlazorBoilerplate.CommonUI.Pages
         
         protected override async Task OnInitializedAsync()
         {
-            UserInfo = await ((IdentityAuthenticationStateProvider)authStateProvider).GetUserInfo();
+            UserInfo = await authStateProvider.GetUserInfo();
 
             await AuthenticationStateTask;
             await Chat();
